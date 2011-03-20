@@ -19,3 +19,7 @@
 */
 
 
+#include "Syslog.h"
+#include "Udp.h"
+
+

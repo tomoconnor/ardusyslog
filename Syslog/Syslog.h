@@ -18,6 +18,20 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
+#ifndef Syslog_h
+#define Syslog_h
+
+#define SYSLOG_DEFAULT_PORT 514
 
 #include "Udp.h"
 
+class Syslog {
+public:
+    void server(uint8_t *); /* set the syslog server */
+    void logger(uint8_t priority, uint8_t severity, const char[]);
+private:
+    uint8_t * ip_syslogserver;
+
+};
+
+#endif

@@ -22,4 +22,11 @@
 #include "Syslog.h"
 #include "Udp.h"
 
+void Syslog::setserver(uint8_t * server_ip);
+    /* Variable: ip_syslogserver */
+}
+
+void Syslog::logger(uint8_t priority, uint8_t severity, const char[] message) {
+
+}
 

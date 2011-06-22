@@ -22,11 +22,25 @@
 #include "Syslog.h"
 #include "Udp.h"
 
-void Syslog::setserver(uint8_t * server_ip);
+void Syslog::begin(uint8_t * server_ip);
+    UDP Udp;
     /* Variable: ip_syslogserver */
+    ip_syslogserver = server_ip;
 }
 
-void Syslog::logger(uint8_t priority, uint8_t severity, const char[] message) {
+void Syslog::logger(uint8_t priority, uint8_t severity, const char[] tag const char[] message) {
+    char syslogmessage[255];
+    // now fill the buffer according to RFC 3164
+    // The format is this:
+    // Syslog := TIMESTAMP MDG
+    // TIMESTAMP := Mmm dd hh:mm:ss 
+    //     where Mmm is one of Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec
+    //     and where single digit dd (day) values must be (blank)number
+    //     and where time numbers range from 00 to 24 or 00 to 59
+    //  MSG := TAG CONTENT
 
+
+
+    Udp.sendPacket( , ip_syslogserver, SYSLOG_DEFAULT_PORT)
 }
 

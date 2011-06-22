@@ -27,8 +27,9 @@
 
 class Syslog {
 public:
-    void setserver(uint8_t *); /* set the syslog server */
-    void logger(uint8_t, uint8_t, const char[]);
+    void begin(uint8_t *); /* set the syslog server */
+    void logger(uint8_t, uint8_t, const char[], const char[]);
+
 private:
     uint8_t * ip_syslogserver;
 

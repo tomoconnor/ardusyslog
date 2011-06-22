@@ -27,12 +27,13 @@
 
 class Syslog {
 public:
-    void begin(uint8_t *); /* set the syslog server */
+    void setLoghost(uint8_t *); /* set the syslog server */
+    void setOwnHostname(const char[]); 
     void logger(uint8_t, uint8_t, const char[], const char[]);
 
 private:
     uint8_t * ip_syslogserver;
-
+    char[] my_own_hostname;
 };
 
 #endif

@@ -25,7 +25,7 @@
 
 #include "Udp.h"
 
-class Syslog {
+class SyslogClass {
 public:
     void setLoghost(uint8_t *); /* set the syslog server */
     void setOwnHostname(const char[]); 
@@ -35,5 +35,7 @@ private:
     uint8_t * ip_syslogserver;
     char[] my_own_hostname;
 };
+
+extern SyslogClass Syslog
 
 #endif

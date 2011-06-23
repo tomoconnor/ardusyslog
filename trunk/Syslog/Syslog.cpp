@@ -22,6 +22,9 @@
 #include "Syslog.h"
 #include <Udp.h>
 
+#include <SPI.h>
+#include <Ethernet.h>
+
 
 void SyslogClass::setLoghost(uint8_t * server_ip) {
     ip_syslogserver = server_ip;
@@ -60,6 +63,7 @@ void SyslogClass::setLoghost(uint8_t * server_ip) {
   unlikely.
 */
 void SyslogClass::setOwnHostname(int n) {
+  //my_own_hostname = my_hostname;
 }
 
 
@@ -67,10 +71,14 @@ void SyslogClass::setOwnHostname(int n) {
 void SyslogClass::logger(uint8_t priority, uint8_t severity, const char tag[], const char message[]) {
   char UDPBuffer[] = "Arduino says hello";
 
-  Udp.sendPacket( UDPBuffer, ip_syslogserver, SYSLOG_DEFAULT_PORT);
+  Client client(ip_syslogserver, 3000);
+  if (client.connect()) {
+    client.println(UDPBuffer);
+    client.stop();
+  }
+
+  //Udp.sendPacket( UDPBuffer, ip_syslogserver, SYSLOG_DEFAULT_PORT);
 }
-
-
 
 
 

@@ -28,10 +28,11 @@
 class SyslogClass {
 public:
     void setLoghost(uint8_t *);
-    void setOwnHostname(int n);
+    void setOwnHostname(int);
     void logger(uint8_t, uint8_t, const char[], const char[]);
 private:
     uint8_t * ip_syslogserver;
+    char my_own_hostname[256];
 };
 
 extern SyslogClass Syslog;

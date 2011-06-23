@@ -22,6 +22,7 @@
 #include "Syslog.h"
 #include <Udp.h>
 
+
 void SyslogClass::setLoghost(uint8_t * server_ip) {
     ip_syslogserver = server_ip;
 }
@@ -64,7 +65,13 @@ void SyslogClass::setOwnHostname(int n) {
 
 
 void SyslogClass::logger(uint8_t priority, uint8_t severity, const char tag[], const char message[]) {
+  char UDPBuffer[] = "Arduino says hello";
+
+  Udp.sendPacket( UDPBuffer, ip_syslogserver, SYSLOG_DEFAULT_PORT);
 }
+
+
+
 
 
 /* Create one global object */

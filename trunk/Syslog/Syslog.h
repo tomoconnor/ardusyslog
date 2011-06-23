@@ -21,21 +21,19 @@
 #ifndef Syslog_h
 #define Syslog_h
 
-#define SYSLOG_DEFAULT_PORT 514
+#include <inttypes.h>
 
-#include "Udp.h"
+#define SYSLOG_DEFAULT_PORT 514
 
 class SyslogClass {
 public:
-    void setLoghost(uint8_t *); /* set the syslog server */
-    void setOwnHostname(const char[]); 
+    void setLoghost(uint8_t *);
+    void setOwnHostname(int n);
     void logger(uint8_t, uint8_t, const char[], const char[]);
-
 private:
     uint8_t * ip_syslogserver;
-    char[] my_own_hostname;
 };
 
-extern SyslogClass Syslog
+extern SyslogClass Syslog;
 
 #endif

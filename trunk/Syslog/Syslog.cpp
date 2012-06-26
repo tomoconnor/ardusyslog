@@ -20,17 +20,17 @@
 
 
 #include "Syslog.h"
-#include <Udp.h>
-
-#include <SPI.h>
 #include <Ethernet.h>
+#include <EthernetUdp.h>
 
-
+EthernetUDP SyslogUdp;
+ 
 void SyslogClass::setLoghost(uint8_t * server_ip) {
     ip_syslogserver = server_ip;
+    SyslogUdp.begin(8888);
 }
-
-
+ 
+ 
 /*
   The HOSTNAME field SHOULD contain the hostname and the domain name of
   the originator in the format specified in STD 13 [RFC1034].  This
@@ -65,23 +65,22 @@ void SyslogClass::setLoghost(uint8_t * server_ip) {
 void SyslogClass::setOwnHostname(int n) {
   //my_own_hostname = my_hostname;
 }
-
-
-
+ 
+ 
+ 
 void SyslogClass::logger(uint8_t priority, uint8_t severity, const char tag[], const char message[]) {
-  char UDPBuffer[] = "Arduino says hello";
-
-  Client client(ip_syslogserver, 3000);
-  if (client.connect()) {
-    client.println(UDPBuffer);
-    client.stop();
-  }
-
-  //Udp.sendPacket( UDPBuffer, ip_syslogserver, SYSLOG_DEFAULT_PORT);
+  char UDPBufferPri[] = "<13>";
+ 
+    SyslogUdp.beginPacket(ip_syslogserver, SYSLOG_DEFAULT_PORT);
+    
+    SyslogUdp.write(UDPBufferPri);
+    SyslogUdp.write(tag);
+    SyslogUdp.write(",");
+    SyslogUdp.write(message);
+    SyslogUdp.endPacket();
 }
 
 
 
 /* Create one global object */
 SyslogClass Syslog;
-

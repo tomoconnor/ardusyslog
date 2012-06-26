@@ -28,7 +28,7 @@
 class SyslogClass {
 public:
     void setLoghost(uint8_t *);
-    void setOwnHostname(int);
+    void setOwnHostname(int n);
     void logger(uint8_t, uint8_t, const char[], const char[]);
 private:
     uint8_t * ip_syslogserver;

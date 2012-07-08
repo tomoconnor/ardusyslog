@@ -21,13 +21,13 @@ void setup() {
   Ethernet.begin(my_mac, my_ip);
   Serial.begin(9600);
   Syslog.setLoghost(loghost);
-  Syslog.logger(2,2,"Arduino","setup finished");
+  Syslog.logger(1,5,"Arduino","setup finished");
   Serial.println("startup msg sent ");
   delay(2000);
 }
   
 void loop() {
-  Syslog.logger(2,2,"Arduino","loop");
+  Syslog.logger(1,6,"Arduino","loop");
   Serial.println("loop msg sent ");
   delay(2000);
 }

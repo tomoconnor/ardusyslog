@@ -68,16 +68,23 @@ void SyslogClass::setOwnHostname(int n) {
  
  
  
-void SyslogClass::logger(uint8_t priority, uint8_t severity, const char tag[], const char message[]) {
-  char UDPBufferPri[] = "<13>";
- 
-    SyslogUdp.beginPacket(ip_syslogserver, SYSLOG_DEFAULT_PORT);
-    
-    SyslogUdp.write(UDPBufferPri);
-    SyslogUdp.write(tag);
-    SyslogUdp.write(",");
-    SyslogUdp.write(message);
-    SyslogUdp.endPacket();
+void SyslogClass::logger(uint8_t facility, uint8_t severity, const char tag[], const char message[]) {
+	String Pri;
+
+	Pri="<";
+	Pri+=(8 * facility + severity);
+	Pri+=">";
+  
+	char UDPBufferPri[Pri.length()+1];
+	Pri.toCharArray(UDPBufferPri,Pri.length()+1);
+
+	SyslogUdp.beginPacket(ip_syslogserver, SYSLOG_DEFAULT_PORT);
+
+	SyslogUdp.write(UDPBufferPri);
+	SyslogUdp.write(tag);
+	SyslogUdp.write(" ");
+	SyslogUdp.write(message);
+	SyslogUdp.endPacket();
 }
 
 

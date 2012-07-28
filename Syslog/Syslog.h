@@ -30,6 +30,7 @@ public:
     void setLoghost(uint8_t *);
     void setOwnHostname(int n);
     void logger(uint8_t, uint8_t, const char[], const char[]);
+    void logger(uint8_t, uint8_t, const char[], String&);
 private:
     uint8_t * ip_syslogserver;
     char my_own_hostname[256];

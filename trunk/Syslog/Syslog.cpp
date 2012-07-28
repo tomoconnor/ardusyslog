@@ -19,6 +19,7 @@
 */
 
 
+#include <Arduino.h>
 #include "Syslog.h"
 #include <Ethernet.h>
 #include <EthernetUdp.h>
@@ -87,6 +88,12 @@ void SyslogClass::logger(uint8_t facility, uint8_t severity, const char tag[], c
 	SyslogUdp.endPacket();
 }
 
+void SyslogClass::logger(uint8_t facility, uint8_t severity, const char tag[], String& message) {
+  char __message[message.length()+1];
+  message.toCharArray(__message,message.length()+1);  
+
+  logger(facility, severity, tag, __message);
+}
 
 
 /* Create one global object */

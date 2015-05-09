@@ -68,33 +68,43 @@ void SyslogClass::setOwnHostname(int n) {
 }
  
  
- 
-void SyslogClass::logger(uint8_t facility, uint8_t severity, const char tag[], const char message[]) {
-	String Pri;
+void SyslogClass::logger(uint8_t facility, uint8_t severity, const char tag[], const char timestamp[], const char message[]) {
+  String Pri;
 
-	Pri="<";
-	Pri+=(8 * facility + severity);
-	Pri+=">";
+  Pri="<";
+  Pri+=(8 * facility + severity);
+  Pri+=">";
   
-	char UDPBufferPri[Pri.length()+1];
-	Pri.toCharArray(UDPBufferPri,Pri.length()+1);
+  char UDPBufferPri[Pri.length()+1];
+  Pri.toCharArray(UDPBufferPri,Pri.length()+1);
 
-	SyslogUdp.beginPacket(ip_syslogserver, SYSLOG_DEFAULT_PORT);
+  SyslogUdp.beginPacket(ip_syslogserver, SYSLOG_DEFAULT_PORT);
 
-	SyslogUdp.write(UDPBufferPri);
-	SyslogUdp.write(tag);
-	SyslogUdp.write(" ");
-	SyslogUdp.write(message);
-	SyslogUdp.endPacket();
+  SyslogUdp.write(UDPBufferPri);
+  SyslogUdp.write("1");//Write Version (1)
+  SyslogUdp.write(" ");
+  SyslogUdp.write(timestamp);
+  SyslogUdp.write(" ");
+  SyslogUdp.write(tag); //Hostname
+  SyslogUdp.write(" ");
+  SyslogUdp.write(message);
+  SyslogUdp.endPacket();
 }
 
-void SyslogClass::logger(uint8_t facility, uint8_t severity, const char tag[], String& message) {
+void SyslogClass::logger(uint8_t facility, uint8_t severity, const char tag[], String& timestamp, String& message) {
   char __message[message.length()+1];
   message.toCharArray(__message,message.length()+1);  
-
-  logger(facility, severity, tag, __message);
+  char __timestamp[timestamp.length()+1];
+  timestamp.toCharArray(__timestamp, timestamp.length()+1);
+  
+  logger(facility, severity, tag, __timestamp, __message);
 }
 
+void SyslogClass::logger(uint8_t facility, uint8_t severity, const char tag[], String& timestamp, const char message[]) {
+  char __timestamp[timestamp.length()+1];
+  timestamp.toCharArray(__timestamp, timestamp.length()+1);
+  logger(facility, severity, tag, __timestamp, message);
+}
 
 /* Create one global object */
 SyslogClass Syslog;
